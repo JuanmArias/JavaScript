@@ -17,7 +17,10 @@ if((plata >= 3000) || (plata =="tres mil")){
     alert( apellido + ", te falta la mostaza nomas compa");
 }  */
 
-let marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo:VOLKSWAGEN, FIAT");
+//----------------------------------------------
+//----------------------------------------------
+
+/* let marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo:VOLKSWAGEN, FIAT");
 
 if(marca == "volkswagen"){
     modelo = prompt("AUTOMOTORES. Especificar modelo de volswagen:GOL, FOX");
@@ -55,4 +58,71 @@ function tazacion(precioProducto, precioDescuento) {
     let nuevoPrecio = resta(suma(precioProducto, taza(precioProducto)), precioDescuento); 
     let precioCuota = division(nuevoPrecio)
     alert("El precio de tu poliza semestral es de " + nuevoPrecio + ", " + "echo en un plan de 6 cuotas el precio seria de" + precioCuota)
+} */
+
+//----------------------------------------------
+//----------------------------------------------
+
+
+//creacion de clase AUTO
+class Auto {
+    nombre;
+    sumaAsegurada;
+    tarifaOrigen;
+    prima;
+
+    constructor(nombre, sumaAsegurada, tarifaOrigen, prima){
+        this.nombre = nombre;
+        this.sumaAsegurada = sumaAsegurada;
+        this.tarifaOrigen = tarifaOrigen;
+        this.prima = prima;
+    }
+
+    //funcion que deriva en el precio final
+    cotizador(){
+        const tarifa = x => x * this.tarifaOrigen;
+        const division = x => x / 6;
+        let premio = tarifa(this.prima)
+        let precioCuota = division(premio)
+        alert("Tu Vehiculo:" + this.nombre + " suma asegurada:" + this.sumaAsegurada + "el valor de la poliza semestral es de" + premio + "realizado en 6 cuotas quedaria en " + precioCuota)
+    }
+
+}
+
+const gol = new Auto("Gol", 700000, 0.28, 20000);
+const scirocco = new Auto("Scirocco", 900000, 0.60, 25000)
+const palio = new Auto("Palio", 500000, 0.20, 18000)
+const siena = new Auto("Siena", 350000, 0.10, 16000)
+
+let marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo: VOLKSWAGEN, FIAT\nPARA SALIR INGRESE 'ESC'");
+while(marca != "ESC"){
+    switch (marca) {
+        case "volkswagen":
+            modelo = prompt("AUTOMOTORES. Especificar modelo de volswagen:GOL, SCIROCCO");
+            if(modelo == "gol"){ 
+                gol.cotizador();
+            }else if(modelo == "scirocco"){
+                scirocco.cotizador();
+            }else{
+                alert('Por favor ingrese una opción válida.');
+            }
+            break;
+    
+        case "fiat":
+            modelo = prompt("AUTOMOTORES. Especificar modelo de fiat: PALIO, SIENA");
+            if(modelo == "palio"){
+                palio.cotizador();
+            }
+            else if(modelo == "siena"){
+                siena.cotizador();
+            }else{
+                alert('Por favor ingrese una opción válida.');
+            }
+            break;
+        default:
+            alert('Por favor ingrese una opción válida. Los vehiculos cotizables son aquellos que se detallan en la lista');
+            break;
+    }
+
+    marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo: VOLKSWAGEN, FIAT\nPARA SALIR INGRESE 'ESC'");
 }
