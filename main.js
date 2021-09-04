@@ -80,49 +80,43 @@ class Auto {
 
     //funcion que deriva en el precio final
     cotizador(){
-        const tarifa = x => x * this.tarifaOrigen;
-        const division = x => x / 6;
-        let premio = tarifa(this.prima)
-        let precioCuota = division(premio)
-        alert("Tu Vehiculo:" + this.nombre + " suma asegurada:" + this.sumaAsegurada + "el valor de la poliza semestral es de" + premio + "realizado en 6 cuotas quedaria en " + precioCuota)
+        const premio = this.prima * this.tarifaOrigen;
+        const precioCuota = premio / 6;        
+        let titulo = document.createElement("div");
+        titulo.innerHTML =` <h2>Cotizacion de ${marca} ${modelo}</h2>
+                            <h3>Suma Asegurada: ${this.sumaAsegurada}</h3>
+                            <h3>Valor del premio en poliza semestral: ${premio}</h3>
+                            <h3>Realizando financiacion en 6 cuotas: ${precioCuota}</h3> `
+        document.body.appendChild(titulo);
+    
     }
 
 }
+ // Objeto de Arrays que contiene Auto dividido por sus marcas
+const misAutos = {
+    volkswagen: [
+        new Auto("Gol", 700000, 0.28, 20000),
+        new Auto("Scirocco", 900000, 0.60, 25000)
+    ],
+    fiat: [
+        new Auto("Palio", 500000, 0.20, 18000),
+        new Auto("Siena", 350000, 0.10, 16000)
+    ]
+}
 
-const gol = new Auto("Gol", 700000, 0.28, 20000);
-const scirocco = new Auto("Scirocco", 900000, 0.60, 25000)
-const palio = new Auto("Palio", 500000, 0.20, 18000)
-const siena = new Auto("Siena", 350000, 0.10, 16000)
-
-let marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo: VOLKSWAGEN, FIAT\nPARA SALIR INGRESE 'ESC'");
+//interactuamos mediante prompt para determinar que Auto quiere cotizar.
+let marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo: VOLKSWAGEN, FIAT\nPARA SALIR INGRESE 'ESC'").toLowerCase();
 while(marca != "ESC"){
-    switch (marca) {
-        case "volkswagen":
-            modelo = prompt("AUTOMOTORES. Especificar modelo de volswagen:GOL, SCIROCCO");
-            if(modelo == "gol"){ 
-                gol.cotizador();
-            }else if(modelo == "scirocco"){
-                scirocco.cotizador();
-            }else{
-                alert('Por favor ingrese una opción válida.');
-            }
-            break;
-    
-        case "fiat":
-            modelo = prompt("AUTOMOTORES. Especificar modelo de fiat: PALIO, SIENA");
-            if(modelo == "palio"){
-                palio.cotizador();
-            }
-            else if(modelo == "siena"){
-                siena.cotizador();
-            }else{
-                alert('Por favor ingrese una opción válida.');
-            }
-            break;
-        default:
-            alert('Por favor ingrese una opción válida. Los vehiculos cotizables son aquellos que se detallan en la lista');
-            break;
+    if(misAutos[marca]){
+        const modelosDisponibles = misAutos[marca].map(auto => auto.nombre);
+        modelo = prompt(`AUTOMOTORES. Especificar modelo de ${marca}: ${modelosDisponibles.join(', ')}`).toLowerCase();
+        if(modelosDisponibles.find(mod => modelo === mod.toLowerCase())){
+            misAutos[marca].filter(auto => auto.nombre.toLowerCase() === modelo)[0].cotizador();
+        }else{
+            alert('Por favor ingrese una opción válida.');
+        }
+    }else{
+        alert('Por favor ingrese una opción válida. Los vehiculos cotizables son aquellos que se detallan en la lista');
     }
-
-    marca = prompt("Bienvenido al Cotizador, Especificar marca de su vehiculo: VOLKSWAGEN, FIAT\nPARA SALIR INGRESE 'ESC'");
+    marca = prompt(" Ingrese 'ESC' para visualizar su presupuesto , en caso de error ingrese marca correcta: Volkswagen o Fiat ");
 }
