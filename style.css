@@ -1,11 +1,9 @@
-body{
-    text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+.row{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 h1{
-    color: blue;
-}
-h2{
-    color: crimson;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }

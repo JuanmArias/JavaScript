@@ -5,10 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <title>JS</title>
 </head>
 <body>
-    <h1>Presupuesto</h1>
+    <div id="presupuesto" class="container text-center">
+        
+        <h1>Bienvenido al Cotizador del Barto</h1>
+        
+        <div class="row justify-content-center">
+            <div class="input-group mb-3 w-75">
+                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                <input type="text" class="form-control" id="nombre1" placeholder="Ingrese aqui su Nombre" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="input-group mb-3 w-75">
+                <span class="input-group-text" id="basic-addon1">Localidad</span>
+                <input type="text" class="form-control" id="localidad1" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-primary btn-lg" id="aceptar1" type="button">Aceptar</button>
+            <button class="btn btn-primary btn-lg" type="button">Cancelar</button>
+        </div>
+        
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
