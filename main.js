@@ -49,7 +49,14 @@ const misAutos = {
         new Auto("Siena", 350000, 0.10, 16000)
     ]
 }
-
+const salir = document.getElementById("salir1");
+salir.addEventListener("click", clickSalida)
+function clickSalida() {
+    document.getElementById("dato1").remove();
+    document.getElementById("dato2").remove();
+    document.getElementById("dato3").remove();
+    document.getElementById("titulos").innerHTML = `<h1 class="w-75">Gracias por utilizar cotizador El Barto, vuelva prontos!</h1>`
+}
 const aceptar = document.getElementById("aceptar1");
 aceptar.addEventListener("click", respuestaClick)
 function respuestaClick() {
