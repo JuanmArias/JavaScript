@@ -4,37 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <title>JS</title>
 </head>
 <body>
-    <div id="presupuesto" class="container text-center">
-        
+    
+    <div class="container text-center">
         <div id="titulos">
             <h1>Bienvenido al Cotizador del Barto</h1>
         </div>
-        
+    </div>
+    
+    <div id="presupuesto" class="container text-center">
+        <div class="row justify-content-center" id="dato" >
+            <div class="input-group mb-3 w-75">
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese aqui su Nombre" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </div>
+
         <div class="row justify-content-center" id="dato1" >
             <div class="input-group mb-3 w-75">
-                <span class="input-group-text" id="basic-addon1 texto1">Nombre</span>
-                <input type="text" class="form-control" id="input1" placeholder="Ingrese aqui su Nombre" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" id="apellido" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">
             </div>
         </div>
 
-        <div class="row justify-content-center" id="dato2" >
-            <div class="input-group mb-3 w-75">
-                <span class="input-group-text" id="basic-addon1 texto2">Localidad</span>
-                <input type="text" class="form-control" id="input2" placeholder="Ingrese aqui su Localidad" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
+        <div class="container">
+            <button class="boton w-25" id="btnaceptar">Aceptar</button>
+            <button onclick="clickSalida()" class="boton w-25">Salir</button>
         </div>
-
-        <div class="d-grid gap-2 d-md-block" id="dato3">
-            <button class="btn btn-primary btn-lg" id="aceptar1" type="button">Aceptar</button>
-            <button class="btn btn-primary btn-lg" id="salir1" type="button">Salir</button>
-        </div>
-        
     </div>
+
+    <footer>
+        <div class="container text-center">
+            <h6 class="text-muted">Cotizador de Seguros. By Juan Manuel Arias</h6>
+        </div>
+    </footer>
     <script src="main.js"></script>
 </body>
 </html>
