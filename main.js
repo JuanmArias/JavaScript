@@ -16,8 +16,9 @@ class Auto {
     cotizador(){
         const premio = this.prima * this.tarifaOrigen;
         const precioCuota = premio / 6;
-        document.getElementById("presupuesto").remove();
-        document.getElementById("titulos").innerHTML = `<h2>Cotizador el Barto</h2>`
+        $("#presupuesto").remove();
+        $("#titulos").empty();
+        $("#titulos").append("<h2>Cotizador el Barto</h2>");
         let presupuestofinal = document.createElement("div");
         presupuestofinal.className = "container";
         presupuestofinal.innerHTML =`<table class="table table-secondary w-50 mx-auto">
@@ -41,7 +42,7 @@ class Auto {
                                             </tr>
                                         </tbody>
                                      </table>`
-        document.body.appendChild(presupuestofinal);
+        $('body').append(presupuestofinal);
     }
 }
 
@@ -68,21 +69,22 @@ const misAutos = {
 }
 
 localStorage.setItem("autos", JSON.stringify(misAutos));
-const btnaceptar = document.getElementById("btnaceptar")
-btnaceptar.addEventListener("click", iniciarCotizador)
+$("#btnaceptar").click(iniciarCotizador)
 function iniciarCotizador() {
     const nombre = document.getElementById("nombre").value;
     localStorage.setItem("nombre", nombre)
     const apellido = document.getElementById("apellido").value;
     localStorage.setItem("apellido", apellido)
 
-    document.getElementById("dato1").remove();
+    $("#dato1").remove();
     document.getElementById("dato").innerHTML = `<div class="input-group mb-3 w-75">
                                                     <input type="text" class="form-control" id="marca" placeholder="Ingresa marca de vehiculo disponible" aria-label="Username" aria-describedby="basic-addon1">
                                                  </div>`;
     document.getElementById("titulos").innerHTML = `<h1>Hola ${nombre} ${apellido}</h1>
                                                     <h3>Ingresa una Marca disponible: ${Object.keys(misAutos).join(", ")}</h3>`;
-    btnaceptar.addEventListener("click", marcaClick)
+    
+    $("#btnaceptar").unbind();
+    $("#btnaceptar").click(marcaClick);
 }
 
 function marcaClick() {
@@ -93,7 +95,8 @@ function marcaClick() {
         document.getElementById("dato").innerHTML = `<div class="input-group mb-3 w-75">
                                                         <input type="text" class="form-control" id="modelo" placeholder="Ingresa modelo de vehiculo disponible" aria-label="Username" aria-describedby="basic-addon1">
                                                      </div>`;
-        btnaceptar.addEventListener("click", modeloClick)
+        $("#btnaceptar").unbind();
+        $("#btnaceptar").click(modeloClick);
         function modeloClick() {
             const modelo = document.getElementById("modelo").value.toLowerCase();
             if(modelosDisponibles.find(mod => modelo === mod.toLowerCase())){
@@ -108,6 +111,6 @@ function marcaClick() {
 }
 
 function clickSalida() {
-    document.getElementById("presupuesto").remove();
+    $("#presupuesto").remove();
     document.getElementById("titulos").innerHTML = `<h1>Gracias por utilizar cotizador El Barto, vuelva prontos!</h1>`
 }
