@@ -60,6 +60,8 @@ function clickSelector(){
             $("#btnaceptar").click(clickPresupuesto);
             function clickPresupuesto(){
                 $("#modelos option:selected").each(function () {
+                    // no me estaria saliendo seleccionar el objeto del select de manera que pueda utilizar
+                    // sus propiedades en el cotizador.
                     const modelo1 = $(this).val();
                     console.log(modelo1);
                     $("#presupuesto").remove();
