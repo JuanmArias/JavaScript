@@ -1,6 +1,7 @@
-$('#btnaceptar').click(switch1);
-function switch1(){
-    if ($('#innuevo').is(':checked')) {
+// Aqui iniciamos los eventos decidiendo si el presupuesto es nuevo o previamente cotizado
+$('#btnaceptar').click(definirCotizacion);
+function definirCotizacion(){
+    if ($('#inpnuevo').is(':checked')) {
         pedirDatos();
         $('#btnaceptar').unbind();
         $('#btnaceptar').click(iniciarCotizador);
@@ -8,46 +9,49 @@ function switch1(){
         presupuestoExistente();
         $('.radios__nuevo').remove();
         $('#btnaceptar').unbind();
-        $('#btnaceptar').click(presupuesto);
 
     }
 }
 
+// en caso de ser nuevo agregamos los input para solicitar sus datos
 function pedirDatos(){
     $('#presupuestar').remove();
     $('#titulos').after(`<div id="presupuesto" class="container text-center">
 
-    <div class="row justify-content-center" id="dato" >
+    <div class="row justify-content-center" id="nombre" >
         <div class="input-group mb-3 w-75">
-            <input type="text" class="form-control" id="nombre" placeholder="Ingrese aqui su Nombre" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" id="inpnombre" placeholder="Ingrese aqui su Nombre" aria-label="Username" aria-describedby="basic-addon1">
         </div>
     </div>
 
-    <div class="row justify-content-center" id="dato1" >
+    <div class="row justify-content-center" id="apellido" >
         <div class="input-group mb-3 w-75">
-            <input type="text" class="form-control" id="apellido" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" id="inpapellido" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">
         </div>
     </div>
     </div>`);
 }
 
+// caso contrario solicitamos su apellido el cual esta vinculado con el presupuesto 
+// guardado en el storage y lo muestra en pantalla
 function presupuestoExistente(){
-    $('.radios__existente').append(`<input type="text" class="form-control" id="apellido1" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">`);
-    $('#btnaceptar').unbind();
+    $('.radios__existente').append(`<input type="text" class="form-control" id="apellido" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">`);
+
 }
 
+// guardamos los datos en el storage y damos visualizacion a los select para elegir el vehiculo
 function iniciarCotizador() {
-    const nombre = $('#nombre').val();
+    const nombre = $('#inpnombre').val();
     localStorage.setItem('nombre', nombre)
-    const apellido = $('#apellido').val();
+    const apellido = $('#inpapellido').val();
     localStorage.setItem('apellido', apellido)
 
-    $('#dato1').remove();
-    $('#dato').remove();
+    $('#nombre').remove();
+    $('#apellido').remove();
     $('#titulos').empty();
-    $('#titulos').append(`<h1>Hola ${nombre} ${apellido}</h1>`);
+    $('#titulos').append(`<hr><h1>${nombre} ${apellido}: proceda a eligir su vehiculo</h1><hr>`);
     $('#presupuesto').prepend(` <div class="row justify-content-center">
-                                    <div class="cosa1">
+                                    <div class="selectores">
                                         <select id="marcas">
                                             <option disabled selected>Elija la marca</option>
                                             <option value="volkswagen">Volkswagen</option>
@@ -55,7 +59,7 @@ function iniciarCotizador() {
                                             <option value="fiat">Fiat</option>
                                         </select>
                                     </div>
-                                    <div class="cosa1">
+                                    <div class="selectores">
                                         <select id="modelos">
                                             <option disabled selected>Elija el modelo</option>
                                         </select>
@@ -65,6 +69,7 @@ function iniciarCotizador() {
     $('#marcas').click(cargarSelectores);
 }
 
+// aqui cargamos los selectores con la opcion elegida y cargamos al boton el evento presupuesto
 function cargarSelectores(){
     const urlget = "https://my-json-server.typicode.com/JuanmArias/pruebaJSON/db"
     $.get(urlget, function (respuesta, estado) {
@@ -76,22 +81,20 @@ function cargarSelectores(){
                     $('#modelos').html('<option disabled selected>Elija el modelo</option>');
                     for(const modelo of misAutos[marca]){
                         $('#modelos').append(`<option value="${modelo.nombre}">${modelo.nombre}</option>`);
+                        
                     }
-                    
                 });
             })
             $('#modelos').change(() => {
                 if ($('#modelos option:selected').val()) {
-                    $('#btnaceptar').click(presupuesto);
-                    
+                   $('#btnaceptar').click(presupuesto);
                 }
             })
         }
     })
 }
 
-//en clickPresupuesto no se como referenciarlos en el template literal
-
+//damos visualizacion al presupuesto del vehiculo
 function presupuesto(){
     const urlget = "https://my-json-server.typicode.com/JuanmArias/pruebaJSON/db"
     $.get(urlget, function (respuesta, estado) {
@@ -99,77 +102,43 @@ function presupuesto(){
             const misAutos = respuesta;
             const marca = $('#marcas option:selected').val();
             const modelo = $('#modelos option:selected').val();
-    
+            const autoCotizado = misAutos[marca].filter(auto => auto.nombre === modelo)[0];
+            const premio = autoCotizado.prima * autoCotizado.tarifaOrigen;
+            const precioCuota = premio / 6;
             $('#presupuesto').remove();
+            $('.btninicial').remove();
             $('#titulos').empty();
-            $('#titulos').append("<h2>Cotizador el Barto</h2>");
+            $('#titulos').append("<hr><h2>Cotizador 'el Barto' </h2><hr>");
             $('body').append(`<div class="container">
                                 <table class="table table-secondary w-50 mx-auto">
                                     <thead>
                                         <tr>
                                         
-                                            <th class="text-center" scope="col" colspan="2">Cotizacion de ${auto.nombre}</th>
+                                            <th class="text-center" scope="col" colspan="2">Cotizacion de vehiculo ${marca} ${autoCotizado.nombre} </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th scope="row">Suma Asegurada </th>
-                                            <td></td>
+                                            <th scope="row">Suma Asegurada</th>
+                                            <td>${autoCotizado.sumaAsegurada}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Valor del premio en poliza semestral</th>
-                                            <td></td>
+                                            <td>${premio}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Realizando financiacion en 6 cuotas</th>
-                                            <td></td>
+                                            <td>${precioCuota}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>`);
         }
     })
+    
 }
-    /*     console.log(modelo);       
-        //const premio = this.prima * this.tarifaOrigen;
-        //const precioCuota = premio / 6;
-        $('#presupuesto').remove();
-        $('#titulos').empty();
-        $('#titulos').append("<h2>Cotizador el Barto</h2>");
-        $('body').append(`<div class="container">
-                            <table class="table table-secondary w-50 mx-auto">
-                                <thead>
-                                    <tr>
-                                    
-                                        <th class="text-center" scope="col" colspan="2">Cotizacion de ${modelo}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Suma Asegurada </th>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Valor del premio en poliza semestral</th>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Realizando financiacion en 6 cuotas</th>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>`); */
-
 
 function clickSalida() {
     $('body').empty();
     $('body').append('<h1 class="text-center">Gracias por utilizar cotizador El Barto, vuelva prontos!</h1>');
 }
-
-//Con respecto a lo que mencionas, lo que tienes que hacer es tener variables donde guardes lo que tienes
-// en el storage al principio en el ready, y consultar si esas variables estan vacias luego de traer 
- //la data del storage, si estan vacias entonces no muestras nada aun, si tienen datos entonces mostrarlos,
- // con un if puede ser, y luego, con cada dato quue el cliente ingrese, guardarlo en el storage inmediatamente
- // i cuando se recarga la pagina lo primero que hara es traer la data,si existe en las variables,
- //  entonces la muestra

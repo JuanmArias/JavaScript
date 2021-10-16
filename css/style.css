@@ -15,17 +15,18 @@ select {
 select::-ms-expand {
     display: none;
 }
-.cosa1 {
+.selectores {
     position: relative;
     display: flex;
-    width: 20em;
+    margin: 0 2rem;
+    width: 17em;
     height: 3em;
     line-height: 3;
     background: #5c6664;
     overflow: hidden;
     border-radius: .25em;
 }
-.cosa1::after {
+.selectores::after {
     content: '\25BC';
     position: absolute;
     top: 0;
@@ -36,11 +37,11 @@ select::-ms-expand {
     pointer-events:none;
     transition:.25s all ease;
 }
-.cosa1:hover::after {
+.selectores:hover::after {
     color: #23b499;
 }
 
-#dato{
+#nombre{
     margin-top: 5rem;
 }
  
