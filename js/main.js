@@ -6,9 +6,10 @@ function definirCotizacion(){
         $('#btnaceptar').unbind();
         $('#btnaceptar').click(iniciarCotizador);
     } else {
-        presupuestoExistente();
+        $('.radios__existente').append(`<input type="text" class="form-control" id="apellido" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">`);
         $('.radios__nuevo').remove();
         $('#btnaceptar').unbind();
+        $('#btnaceptar').click(presupuestoExistente);
 
     }
 }
@@ -32,11 +33,43 @@ function pedirDatos(){
     </div>`);
 }
 
-// caso contrario solicitamos su apellido el cual esta vinculado con el presupuesto 
-// guardado en el storage y lo muestra en pantalla
+// caso contrario procedemos a mostrar el presupuesto anteriormente echo
 function presupuestoExistente(){
-    $('.radios__existente').append(`<input type="text" class="form-control" id="apellido" placeholder="Ingrese aqui su apellido" aria-label="Username" aria-describedby="basic-addon1">`);
-
+    const apellidoStorage = localStorage.getItem('apellido');
+    if ($('#apellido').val() === apellidoStorage) {
+            const presupuestoStorage = localStorage.getItem('presupuesto')
+            const vehiculoCotizado = JSON.parse(presupuestoStorage);
+            const premio = vehiculoCotizado.prima * vehiculoCotizado.tarifaOrigen;
+            const precioCuota = premio / 6;
+            $('#presupuestar').remove();
+            $('.btninicial').remove();
+            $('#titulos').empty();
+            $('#titulos').append("<hr><h2>Cotizador 'El Barto' </h2><hr>");
+            $('body').append(`<div class="container">
+                                    <table class="table table-secondary w-50 mx-auto">
+                                        <thead>
+                                            <tr>
+                                            
+                                                <th class="text-center" scope="col" colspan="2">Cotizacion de vehiculo ${vehiculoCotizado.nombre} </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Suma Asegurada</th>
+                                                <td>${vehiculoCotizado.sumaAsegurada}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Valor del premio en poliza semestral</th>
+                                                <td>${premio}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Realizando financiacion en 6 cuotas</th>
+                                                <td>${precioCuota}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>`);
+    }
 }
 
 // guardamos los datos en el storage y damos visualizacion a los select para elegir el vehiculo
@@ -103,6 +136,7 @@ function presupuesto(){
             const marca = $('#marcas option:selected').val();
             const modelo = $('#modelos option:selected').val();
             const autoCotizado = misAutos[marca].filter(auto => auto.nombre === modelo)[0];
+            localStorage.setItem('presupuesto', JSON.stringify(autoCotizado));
             const premio = autoCotizado.prima * autoCotizado.tarifaOrigen;
             const precioCuota = premio / 6;
             $('#presupuesto').remove();
@@ -135,9 +169,9 @@ function presupuesto(){
                             </div>`);
         }
     })
-    
 }
 
+//Finalizar el Cotizador en cualquier instancia
 function clickSalida() {
     $('body').empty();
     $('body').append('<h1 class="text-center">Gracias por utilizar cotizador El Barto, vuelva prontos!</h1>');
